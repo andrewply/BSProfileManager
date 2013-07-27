@@ -14,7 +14,7 @@ namespace BSProfileManager
 {
     public partial class Main : Form
     {
-        private string versionNumber = "v0.8";
+        private string versionNumber = "v0.8.1";
         private SettingHelper settingHelper;
         private BSHelper bsHelper;
         private SqliteHelper sqliteHelper;
@@ -58,13 +58,12 @@ namespace BSProfileManager
                                 sqliteHelper.insertRecord(line);
                         }
                     }
-                }
 
-                if (MessageBox.Show("import finish, delete it?", "Importing...", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    File.Delete(Global.LOG_FILE_PATH);
+                    if (MessageBox.Show("import finish, delete it?", "Importing...", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        File.Delete(Global.LOG_FILE_PATH);
+                    }
                 }
-
             }
         }
 
@@ -167,7 +166,6 @@ namespace BSProfileManager
             dataGridView1.DataSource = ds.Tables[0].DefaultView;
             dataGridView1.Columns[0].Visible = false;
             dataGridView1.Columns[0].ReadOnly = true;
-            dataGridView1.Columns[1].ReadOnly = true;
         }
 
         private void selectLastRow()

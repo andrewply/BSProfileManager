@@ -12,7 +12,6 @@ namespace BSProfileManager
     {
         private SQLiteConnection dbConnection;
         private SQLiteConnectionStringBuilder sb;
-        private SQLiteCommandBuilder builder;
         private SQLiteCommand command;
 
         public SqliteHelper()

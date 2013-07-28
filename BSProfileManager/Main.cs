@@ -121,8 +121,7 @@ namespace BSProfileManager
                 string guid = dataGridView1.CurrentRow.Cells[1].Value.ToString();
 
                 //modify
-                //modifyBSRegistry(btnSetSelectedGuid, guid, cbRestart.Checked);
-                MessageBox.Show(guid);
+                modifyBSRegistry(btnSetSelectedGuid, guid, cbRestart.Checked);
             }
         }
 

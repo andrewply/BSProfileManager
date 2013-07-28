@@ -14,7 +14,7 @@ namespace BSProfileManager
 {
     public partial class Main : Form
     {
-        private string versionNumber = "v0.8.1";
+        private string versionNumber = "v0.9";
         private SettingHelper settingHelper;
         private BSHelper bsHelper;
         private SqliteHelper sqliteHelper;
@@ -116,13 +116,13 @@ namespace BSProfileManager
 
         private void btnSetSelectedGuid_Click(object sender, EventArgs e)
         {
-
-            if (dataGridView1.SelectedRows.Count > 0)
+            if (dataGridView1.CurrentRow != null)
             {
-                string guid = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
+                string guid = dataGridView1.CurrentRow.Cells[1].Value.ToString();
 
                 //modify
-                modifyBSRegistry(btnSetSelectedGuid, guid, cbRestart.Checked);
+                //modifyBSRegistry(btnSetSelectedGuid, guid, cbRestart.Checked);
+                MessageBox.Show(guid);
             }
         }
 
@@ -166,6 +166,7 @@ namespace BSProfileManager
             dataGridView1.DataSource = ds.Tables[0].DefaultView;
             dataGridView1.Columns[0].Visible = false;
             dataGridView1.Columns[0].ReadOnly = true;
+            dataGridView1.Columns[1].ReadOnly = true;
         }
 
         private void selectLastRow()
@@ -178,11 +179,14 @@ namespace BSProfileManager
         //update row
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            string id = dataGridView1[0, e.RowIndex].Value.ToString();
-            //string guid = dataGridView1[1, e.RowIndex].Value.ToString();
-            string remark = dataGridView1[2, e.RowIndex].Value.ToString();
-            
-            sqliteHelper.updateRecord(id, remark);
+            if (e.ColumnIndex == 2)
+            {
+                string id = dataGridView1[0, e.RowIndex].Value.ToString();
+                //string guid = dataGridView1[1, e.RowIndex].Value.ToString();
+                string remark = dataGridView1[2, e.RowIndex].Value.ToString();
+
+                sqliteHelper.updateRecord(id, remark);
+            }
         }
 
         //delete row
@@ -205,5 +209,26 @@ namespace BSProfileManager
             System.Windows.Forms.Application.Exit();
         }
 
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string inputGuid = tbInputGuid.Text.Trim();
+                Guid testGuid = new Guid(inputGuid);
+
+                //write to db
+                sqliteHelper.insertRecord(inputGuid);
+
+                //rebuild guid
+                buildGrid();
+                selectLastRow();
+
+                tbInputGuid.Text = "";
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("this is not a valid guid, please check again");
+            }
+        }
     }
 }

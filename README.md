@@ -1,6 +1,6 @@
 BSProfileManager
 ================
-Able to change and past BlueStacks Guid for GGen Frontier
+Able to create and change BlueStacks Guid for GGen Frontier
 
 v 0.9
 add
